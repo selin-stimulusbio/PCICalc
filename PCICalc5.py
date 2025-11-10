@@ -74,7 +74,7 @@ def pick_protein_from_groups(label, key_prefix):
     return protein
 
 # ---------- Streamlit app ----------
-st.title("PCI3 Assembly Calculator — Multi-Protein Dynamic")
+st.title("PCI3 Assembly Calculator")
 
 # Input: Required RBC (M)
 pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0)
@@ -124,7 +124,7 @@ req_cus = required_row(per_cus, pci3_needed)
 # ---------- Display ----------
 # ---------- Display ----------
 st.markdown("---")
-st.header("STANDARD (Required)")
+st.header("STANDARD")
 
 # Core model-derived values (shared physical constants)
 per_std = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
@@ -154,7 +154,7 @@ for name, pmol in bc2_proteins:
 
 # ---------- CUSTOM ----------
 st.markdown("---")
-st.header("CUSTOM (Required)")
+st.header("CUSTOM")
 
 per_cus = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
 req_cus = required_row(per_cus, pci3_needed)
