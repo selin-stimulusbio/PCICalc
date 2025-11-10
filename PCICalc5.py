@@ -122,44 +122,62 @@ req_std = required_row(per_std, pci3_needed)
 req_cus = required_row(per_cus, pci3_needed)
 
 # ---------- Display ----------
-
+# ---------- Display ----------
 st.markdown("---")
 st.header("STANDARD (Required)")
+
+# Core model-derived values (shared physical constants)
+per_std = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
+req_std = required_row(per_std, pci3_needed)
+
 st.write(f"DOPE pmol: {req_std['DOPE_pmol']:.2f} pmol")
 st.write(f"Barcode1 pmol: {req_std['Barcode1_pmol']:.2f} pmol")
 st.write(f"Barcode2 pmol: {req_std['Barcode2_pmol']:.2f} pmol")
 
-# --- BC1 ---
-st.write("### BC1 Proteins")
+# BC1 per-protein calculations
+st.subheader("BC1 Protein Calculations")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
-    calc_pmol = pmol * pci3_needed  # each protein's own calculated pmol
-    st.write(f"{name}: {calc_pmol:.2f} pmol")
+    # Each protein uses the same model chain but scaled to its own pmol input
+    per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
+    req_individual = required_row(per_unit_individual, pci3_needed)
+    calc_pmol = req_individual["Proteins_BC1_pmol"] * (pmol / req_pmol_bc1_fixed if req_pmol_bc1_fixed else 0)
+    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 
-
-# --- BC2 ---
-st.write("### BC2 Proteins")
+# BC2 per-protein calculations
+st.subheader("BC2 Protein Calculations")
 for name, pmol in bc2_proteins:
-    calc_pmol = pmol * pci3_needed  # each protein's own calculated pmol
-    st.write(f"{name}: {calc_pmol:.2f} pmol")
+    per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
+    req_individual = required_row(per_unit_individual, pci3_needed)
+    calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
+    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
+
 
 # ---------- CUSTOM ----------
 st.markdown("---")
 st.header("CUSTOM (Required)")
+
+per_cus = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
+req_cus = required_row(per_cus, pci3_needed)
+
 st.write(f"DOPE pmol: {req_cus['DOPE_pmol']:.2f} pmol")
 st.write(f"Barcode1 pmol: {req_cus['Barcode1_pmol']:.2f} pmol")
 st.write(f"Barcode2 pmol: {req_cus['Barcode2_pmol']:.2f} pmol")
 
-st.write("### BC1 Proteins")
+# BC1 Custom per-protein
+st.subheader("BC1 Protein Calculations (Custom)")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
-    calc_pmol = pmol * pci3_needed
-    st.write(f"{name}: {calc_pmol:.2f} pmol")
+    per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
+    req_individual = required_row(per_unit_individual, pci3_needed)
+    calc_pmol = req_individual["Proteins_BC1_pmol"] * (pmol / req_pmol_bc1_fixed if req_pmol_bc1_fixed else 0)
+    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 
-
-st.write("### BC2 Proteins")
+# BC2 Custom per-protein
+st.subheader("BC2 Protein Calculations (Custom)")
 for name, pmol in bc2_proteins:
-    calc_pmol = pmol * pci3_needed
-    st.write(f"{name}: {calc_pmol:.2f} pmol")
-
+    per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
+    req_individual = required_row(per_unit_individual, pci3_needed)
+    calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
+    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 # ---------- STOCK VOLUMES ----------
 st.markdown("---")
 st.header("Stock Volumes for Proteins (µL)")
