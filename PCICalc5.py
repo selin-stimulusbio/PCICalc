@@ -127,6 +127,7 @@ st.markdown("---")
 st.header("STANDARD (Required)")
 st.write(f"DOPE pmol: {req_std['DOPE_pmol']:.2f} pmol")
 st.write(f"Barcode1 pmol: {req_std['Barcode1_pmol']:.2f} pmol")
+st.write(f"Barcode2 pmol: {req_std['Barcode2_pmol']:.2f} pmol")
 
 # --- BC1 ---
 st.write("### BC1 Proteins")
@@ -134,7 +135,6 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     calc_pmol = pmol * pci3_needed  # each protein's own calculated pmol
     st.write(f"{name}: {calc_pmol:.2f} pmol")
 
-st.write(f"Barcode2 pmol: {req_std['Barcode2_pmol']:.2f} pmol")
 
 # --- BC2 ---
 st.write("### BC2 Proteins")
@@ -147,13 +147,13 @@ st.markdown("---")
 st.header("CUSTOM (Required)")
 st.write(f"DOPE pmol: {req_cus['DOPE_pmol']:.2f} pmol")
 st.write(f"Barcode1 pmol: {req_cus['Barcode1_pmol']:.2f} pmol")
+st.write(f"Barcode2 pmol: {req_cus['Barcode2_pmol']:.2f} pmol")
 
 st.write("### BC1 Proteins")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     calc_pmol = pmol * pci3_needed
     st.write(f"{name}: {calc_pmol:.2f} pmol")
 
-st.write(f"Barcode2 pmol: {req_cus['Barcode2_pmol']:.2f} pmol")
 
 st.write("### BC2 Proteins")
 for name, pmol in bc2_proteins:
