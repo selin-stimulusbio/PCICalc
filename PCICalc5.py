@@ -99,12 +99,11 @@ for i in st.session_state.bc1_entries:
 
 st.markdown("<br><hr><br>", unsafe_allow_html=True)
 st.markdown(
-    "<h2 style='color:#2E86C1; font-weight:700;'>Optional Step:</h2>"
     "<h3 style='margin-top:-10px;'>Include BC2 Proteins?</h3>",
     unsafe_allow_html=True
 )
 
-include_bc2 = st.checkbox("Include BC2 Proteins?", value=False)
+include_bc2 = st.checkbox("Yes", value=False)
 
 bc2_proteins = []
 if include_bc2:
