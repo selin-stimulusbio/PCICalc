@@ -80,12 +80,12 @@ st.title("PCI3 Assembly Calculator")
 pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0)
 
 # BC1 Section (always required)
-st.header("Proteins on BC1")
+st.header("Proteins on Barcode 1")
 st.markdown("**Fixed Protein:** SA-BC (1.0 µM)")
 req_pmol_bc1_fixed = st.number_input("Required pmol for SA-BC:", min_value=0.0, value=2.4)
 
 # Add more proteins dynamically to BC1
-st.subheader("Add Additional Proteins to BC1")
+st.subheader("Add Additional Proteins to BarCode1")
 if "bc1_entries" not in st.session_state:
     st.session_state.bc1_entries = []
 if st.button("➕ Add Protein to BC1"):
@@ -93,13 +93,13 @@ if st.button("➕ Add Protein to BC1"):
 
 bc1_proteins = []
 for i in st.session_state.bc1_entries:
-    prot_name = pick_protein_from_groups("BC1 Protein", f"bc1_{i}")
+    prot_name = pick_protein_from_groups("BarCode1 Protein", f"bc1_{i}")
     req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc1_pmol_{i}")
     bc1_proteins.append((prot_name, req_pmol))
 
 st.markdown("<br><hr><br>", unsafe_allow_html=True)
 st.markdown(
-    "<h3 style='margin-top:-10px;'>Include BC2 Proteins?</h3>",
+    "<h3 style='margin-top:-10px;'>Add another barcode?</h3>",
     unsafe_allow_html=True
 )
 
@@ -108,7 +108,7 @@ include_bc2 = st.checkbox("Yes", value=False)
 bc2_proteins = []
 if include_bc2:
     st.header("Proteins on BC2")
-    primary_bc2 = pick_protein_from_groups("Primary BC2 Protein", "primary_bc2")
+    primary_bc2 = pick_protein_from_groups("Primary BarCode2 Protein", "primary_bc2")
     req_pmol_bc2_primary = st.number_input(
         f"Required pmol for {primary_bc2}:",
         min_value=0.0,
@@ -118,7 +118,7 @@ if include_bc2:
     )
 
     # Add more proteins dynamically to BC2
-    st.subheader("Add Additional Proteins to BC2")
+    st.subheader("Add Additional Proteins to BarCode2")
     if "bc2_entries" not in st.session_state:
         st.session_state.bc2_entries = []
     if st.button("➕ Add Protein to BC2"):
@@ -126,7 +126,7 @@ if include_bc2:
 
     bc2_proteins = [(primary_bc2, req_pmol_bc2_primary)]
     for i in st.session_state.bc2_entries:
-        prot_name = pick_protein_from_groups("BC2 Protein", f"bc2_{i}")
+        prot_name = pick_protein_from_groups("BarCode2 Protein", f"bc2_{i}")
         req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc2_pmol_{i}")
         bc2_proteins.append((prot_name, req_pmol))
 
