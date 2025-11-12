@@ -151,7 +151,7 @@ st.write(f"Barcode1 pmol: {req_std['Barcode1_pmol']:.2f} pmol")
 st.write(f"Barcode2 pmol: {req_std['Barcode2_pmol']:.2f} pmol")
 
 # BC1 per-protein calculations
-st.subheader("BC1 Protein Calculations")
+st.subheader("BarCode1 Protein Calculations")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     # Each protein uses the same model chain but scaled to its own pmol input
     per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
@@ -163,7 +163,7 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
 # BC2 per-protein calculations
 if include_bc2:
     # all BC2 calculations + display
-    st.subheader("BC2 Protein Calculations")
+    st.subheader("BarCode2 Protein Calculations")
     for name, pmol in bc2_proteins:
         per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
         req_individual = required_row(per_unit_individual, pci3_needed)
@@ -183,7 +183,7 @@ st.write(f"Barcode1 pmol: {req_cus['Barcode1_pmol']:.2f} pmol")
 st.write(f"Barcode2 pmol: {req_cus['Barcode2_pmol']:.2f} pmol")
 
 # BC1 Custom per-protein
-st.subheader("BC1 Protein Calculations (Custom)")
+st.subheader("BarCode1 Protein Calculations (Custom)")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
     req_individual = required_row(per_unit_individual, pci3_needed)
@@ -193,7 +193,7 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
 # BC2 Custom per-protein
 if include_bc2:
     # all BC2 calculations + display
-    st.subheader("BC2 Protein Calculations (Custom)")
+    st.subheader("BarCode2 Protein Calculations (Custom)")
     for name, pmol in bc2_proteins:
         per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
         req_individual = required_row(per_unit_individual, pci3_needed)
@@ -202,7 +202,7 @@ if include_bc2:
 # ---------- STOCK VOLUMES ----------
 st.markdown("---")
 st.header("Stock Volumes for Proteins (µL)")
-st.subheader("BC1")
+st.subheader("BarCode1")
 for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     stock = STOCKS.get(name, 0)
     if stock > 0:
@@ -212,7 +212,7 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
         st.write(f"{name}: stock conc not defined — volume cannot be calculated")
 if include_bc2:
     # all BC2 calculations + display
-    st.subheader("BC2")
+    st.subheader("BarCode2")
     for name, pmol in bc2_proteins:
         stock = STOCKS.get(name, 0)
         if stock > 0:
