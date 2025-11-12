@@ -107,7 +107,7 @@ include_bc2 = st.checkbox("Yes", value=False)
 
 bc2_proteins = []
 if include_bc2:
-    st.header("Proteins on BC2")
+    st.header("Proteins on BarCode2")
     primary_bc2 = pick_protein_from_groups("Primary BarCode2 Protein", "primary_bc2")
     req_pmol_bc2_primary = st.number_input(
         f"Required pmol for {primary_bc2}:",
