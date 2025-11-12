@@ -79,7 +79,7 @@ st.title("PCI3 Assembly Calculator")
 # Input: Required RBC (M)
 pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0)
 
-# BC1 Section
+# BC1 Section (always required)
 st.header("Proteins on BC1")
 st.markdown("**Fixed Protein:** SA-BC (1.0 µM)")
 req_pmol_bc1_fixed = st.number_input("Required pmol for SA-BC:", min_value=0.0, value=2.4)
@@ -97,7 +97,7 @@ for i in st.session_state.bc1_entries:
     req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc1_pmol_{i}")
     bc1_proteins.append((prot_name, req_pmol))
 
-# BC2 Section
+
 # ✅ Optional BC2 Section
 include_bc2 = st.checkbox("Include BC2 Proteins?", value=False)
 
@@ -113,18 +113,19 @@ if include_bc2:
         key="primary_bc2_pmol"
     )
 
-# Add more proteins dynamically to BC2
-st.subheader("Add Additional Proteins to BC2")
-if "bc2_entries" not in st.session_state:
-    st.session_state.bc2_entries = []
-if st.button("➕ Add Protein to BC2"):
-    st.session_state.bc2_entries.append(len(st.session_state.bc2_entries))
+    # Add more proteins dynamically to BC2
+    st.subheader("Add Additional Proteins to BC2")
+    if "bc2_entries" not in st.session_state:
+        st.session_state.bc2_entries = []
+    if st.button("➕ Add Protein to BC2"):
+        st.session_state.bc2_entries.append(len(st.session_state.bc2_entries))
 
-bc2_proteins = [(primary_bc2, req_pmol_bc2_primary)]
-for i in st.session_state.bc2_entries:
-    prot_name = pick_protein_from_groups("BC2 Protein", f"bc2_{i}")
-    req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc2_pmol_{i}")
-    bc2_proteins.append((prot_name, req_pmol))
+    bc2_proteins = [(primary_bc2, req_pmol_bc2_primary)]
+    for i in st.session_state.bc2_entries:
+        prot_name = pick_protein_from_groups("BC2 Protein", f"bc2_{i}")
+        req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc2_pmol_{i}")
+        bc2_proteins.append((prot_name, req_pmol))
+
 
 # ---------- Calculations ----------
 per_std = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
