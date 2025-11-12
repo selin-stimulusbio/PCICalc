@@ -97,8 +97,13 @@ for i in st.session_state.bc1_entries:
     req_pmol = st.number_input(f"Required pmol for {prot_name}:", min_value=0.0, step=0.1, key=f"bc1_pmol_{i}")
     bc1_proteins.append((prot_name, req_pmol))
 
+st.markdown("<br><hr><br>", unsafe_allow_html=True)
+st.markdown(
+    "<h2 style='color:#2E86C1; font-weight:700;'>Optional Step:</h2>"
+    "<h3 style='margin-top:-10px;'>Include BC2 Proteins?</h3>",
+    unsafe_allow_html=True
+)
 
-# ✅ Optional BC2 Section
 include_bc2 = st.checkbox("Include BC2 Proteins?", value=False)
 
 bc2_proteins = []
