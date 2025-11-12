@@ -154,13 +154,16 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     calc_pmol = req_individual["Proteins_BC1_pmol"] * (pmol / req_pmol_bc1_fixed if req_pmol_bc1_fixed else 0)
     st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 
+
 # BC2 per-protein calculations
-st.subheader("BC2 Protein Calculations")
-for name, pmol in bc2_proteins:
-    per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
-    req_individual = required_row(per_unit_individual, pci3_needed)
-    calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
-    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
+if include_bc2:
+    # all BC2 calculations + display
+    st.subheader("BC2 Protein Calculations")
+    for name, pmol in bc2_proteins:
+        per_unit_individual = per_unit_values(DPB_PER_M_STANDARD, PROT_RATIO_BC1_STANDARD, PROT_RATIO_BC2_STANDARD)
+        req_individual = required_row(per_unit_individual, pci3_needed)
+        calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
+        st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 
 
 # ---------- CUSTOM ----------
@@ -183,12 +186,14 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
     st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 
 # BC2 Custom per-protein
-st.subheader("BC2 Protein Calculations (Custom)")
-for name, pmol in bc2_proteins:
-    per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
-    req_individual = required_row(per_unit_individual, pci3_needed)
-    calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
-    st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
+if include_bc2:
+    # all BC2 calculations + display
+    st.subheader("BC2 Protein Calculations (Custom)")
+    for name, pmol in bc2_proteins:
+        per_unit_individual = per_unit_values(DPB_PER_M_CUSTOM, PROT_RATIO_BC1_CUSTOM, PROT_RATIO_BC2_CUSTOM)
+        req_individual = required_row(per_unit_individual, pci3_needed)
+        calc_pmol = req_individual["Proteins_BC2_pmol"] * (pmol / bc2_proteins[0][1] if bc2_proteins[0][1] else 0)
+        st.write(f"{name}: {calc_pmol:.2f} pmol (calculated from required {pmol:.2f})")
 # ---------- STOCK VOLUMES ----------
 st.markdown("---")
 st.header("Stock Volumes for Proteins (µL)")
@@ -200,12 +205,13 @@ for name, pmol in [("SA-BC", req_pmol_bc1_fixed)] + bc1_proteins:
         st.write(f"{name} (stock {stock} µM): Vol/unit {vol:.2f} µL | Total {vol * pci3_needed:.2f} µL")
     else:
         st.write(f"{name}: stock conc not defined — volume cannot be calculated")
-
-st.subheader("BC2")
-for name, pmol in bc2_proteins:
-    stock = STOCKS.get(name, 0)
-    if stock > 0:
-        vol = pmol / stock
-        st.write(f"{name} (stock {stock} µM): Vol/unit {vol:.2f} µL | Total {vol * pci3_needed:.2f} µL")
-    else:
-        st.write(f"{name}: stock conc not defined — volume cannot be calculated")
+if include_bc2:
+    # all BC2 calculations + display
+    st.subheader("BC2")
+    for name, pmol in bc2_proteins:
+        stock = STOCKS.get(name, 0)
+        if stock > 0:
+            vol = pmol / stock
+            st.write(f"{name} (stock {stock} µM): Vol/unit {vol:.2f} µL | Total {vol * pci3_needed:.2f} µL")
+        else:
+            st.write(f"{name}: stock conc not defined — volume cannot be calculated")
