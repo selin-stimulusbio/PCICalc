@@ -98,9 +98,20 @@ for i in st.session_state.bc1_entries:
     bc1_proteins.append((prot_name, req_pmol))
 
 # BC2 Section
-st.header("Proteins on BC2")
-primary_bc2 = pick_protein_from_groups("Primary BC2 Protein", "primary_bc2")
-req_pmol_bc2_primary = st.number_input(f"Required pmol for {primary_bc2}:", min_value=0.0, step=0.1, value=9.6, key="primary_bc2_pmol")
+# ✅ Optional BC2 Section
+include_bc2 = st.checkbox("Include BC2 Proteins?", value=False)
+
+bc2_proteins = []
+if include_bc2:
+    st.header("Proteins on BC2")
+    primary_bc2 = pick_protein_from_groups("Primary BC2 Protein", "primary_bc2")
+    req_pmol_bc2_primary = st.number_input(
+        f"Required pmol for {primary_bc2}:",
+        min_value=0.0,
+        step=0.1,
+        value=9.6,
+        key="primary_bc2_pmol"
+    )
 
 # Add more proteins dynamically to BC2
 st.subheader("Add Additional Proteins to BC2")
