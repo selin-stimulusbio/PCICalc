@@ -19,6 +19,7 @@ BC_SA_STOCK = 1
 CD3_CONC = 3.3
 CD28_CONC = 3.3
 CD137_CONC = 0.66
+POST_HYBRIDIZATION_WASH_VOL = 30
 
 DPB_PER_M_STANDARD = 4.0
 PROT_RATIO_BC1_STANDARD = 4.0
@@ -119,6 +120,29 @@ with tab_standard:
     st.write(f"BC2-SA Volume: {binding_values['BC2_volume']:.1f} uL")
     st.write(f"anti-CD28 Volume: {binding_values['anti_CD28_vol']:.1f} uL")
     st.write(f"anti-CD137 Volume: {binding_values['anti_CD28_vol']:.1f} uL")
+
+    def hydbridization(req_rbc_vol, binding_values, ANCHOR_RBC_YIELD, POST_HYBRIDIZATION_WASH_VOL):
+        raw_rbc = req_rbc_vol['Raw_RBC_amount']
+        anchored_RBC_M = raw_rbc * ANCHOR_RBC_YIELD
+        raw_rbc_vol = req_rbc_vol['Raw_RBC_vol']
+        anchored_RBC_uL = raw_rbc_vol
+        BC1_vol = binding_values["binding1_total_vol"]
+        BC2_vol = binding_values["binding2_total_vol"]
+        total_hybridization_mix = BC1_vol + BC2_vol
+        hybridization_PBS_vol = anchored_RBC_uL * POST_HYBRIDIZATION_WASH_VOL
+        resuspention_PBS_vol = raw_rbc_vol
+
+        return {
+        "hybridization_PBS_vol": hybridization_PBS_vol,
+        "anti_CD3_vol": anti_CD3_vol,
+        "BC2_volume": BC2_volume,        
+        "anti_CD28_vol":  anti_CD28_vol,
+        "anti_CD137_vol":  anti_CD137_vol,
+        }
+
+    hydbridization_values = hydbridization(req_rbc_vol, binding_values, ANCHOR_RBC_YIELD, POST_HYBRIDIZATION_WASH_VOL)
+    st.write(f"Hybridization Wash PBS Volume: {hydbridization_values['hybridization_PBS_vol']:.1f} uL")
+
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
