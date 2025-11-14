@@ -136,10 +136,6 @@ with tab_standard:
 
         return {
         "hybridization_PBS_vol": hybridization_PBS_vol,
-        "anti_CD3_vol": anti_CD3_vol,
-        "BC2_volume": BC2_volume,        
-        "anti_CD28_vol":  anti_CD28_vol,
-        "anti_CD137_vol":  anti_CD137_vol,
         }
 
     hydbridization_values = hydbridization(req_rbc_vol, binding_values, ANCHOR_RBC_YIELD, POST_HYBRIDIZATION_WASH_VOL)
