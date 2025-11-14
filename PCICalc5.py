@@ -64,7 +64,7 @@ with tab_standard:
         }
 
     req_rbc_vol = RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD)
-    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']}")
+    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']:.2f}")
     raw_rbc = req_rbc_vol['Raw_RBC_amount']
 
     def DPB1_anchoring(req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD):
@@ -85,9 +85,9 @@ with tab_standard:
 
     anchoring = DPB1_anchoring(req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD)
 
-    st.write(f"Anchoring Solution DPB1 Vol: {anchoring['dpb1_vol']} uL")
-    st.write(f"Anchoring Solution PBS Vol: {anchoring['anchoring_pbs_vol']} uL")
-    st.write(f"Post Anchoring Washing PBS Vol: {anchoring['washing_pbs_vol']} uL")
+    st.write(f"Anchoring Solution DPB1 Vol: {anchoring['dpb1_vol']:.2f} uL")
+    st.write(f"Anchoring Solution PBS Vol: {anchoring['anchoring_pbs_vol']:.2f} uL")
+    st.write(f"Post Anchoring Washing PBS Vol: {anchoring['washing_pbs_vol']:.2f} uL")
 
     def binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC):
         dpb1_on_rbc_pmol = anchoring['dpb1_on_rbc_pmol']
@@ -114,11 +114,11 @@ with tab_standard:
         }
 
     binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC)
-    st.write(f"BC1-SA Volume: {binding_values['BC1_volume']} uL")
-    st.write(f"anti-CD3 Volume: {binding_values['anti_CD3_vol']} uL")
-    st.write(f"BC2-SA Volume: {binding_values['BC2_volume']} uL")
-    st.write(f"anti-CD28 Volume: {binding_values['anti_CD28_vol']} uL")
-    st.write(f"anti-CD137 Volume: {binding_values['anti_CD28_vol']} uL")
+    st.write(f"BC1-SA Volume: {binding_values['BC1_volume']:.2f} uL")
+    st.write(f"anti-CD3 Volume: {binding_values['anti_CD3_vol']:.2f} uL")
+    st.write(f"BC2-SA Volume: {binding_values['BC2_volume']:.2f} uL")
+    st.write(f"anti-CD28 Volume: {binding_values['anti_CD28_vol']:.2f} uL")
+    st.write(f"anti-CD137 Volume: {binding_values['anti_CD28_vol']:.2f} uL")
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
