@@ -8,6 +8,9 @@ ANCHOR_EFFICIENCY = 0.50
 ANCHOR_RBC_YIELD = 0.60
 BB_RATIO = 2.0
 RBC_OVERALL_YIELD = 0.40
+DOPE_PEG_BB01_STOCK = 1
+DPB_WORKING_CONC = 100
+POST_ANCHOR_WASH_VOL = 10
 
 DPB_PER_M_STANDARD = 4.0
 PROT_RATIO_BC1_STANDARD = 4.0
@@ -47,18 +50,39 @@ with tab_standard:
     def RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD):
         raw_RBC = pci3_needed / RBC_OVERALL_YIELD
         raw_RBC_vol = raw_RBC / RBC_STOCK_CONC_M_per_mL * 1000
-        return raw_RBC_vol
+        return {
+        "Raw_RBC_amount": raw_RBC,
+        "Raw_RBC_vol": raw_RBC_vol
+        }
 
     req_rbc_vol = RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD)
+    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']:.2f}")
 
-    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol:.2f} µL")
+    def DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD):
+        raw_rbc = {req_rbc_vol['Raw_RBC_amount']:.2f}
+        raw_rbc_vol = {req_rbc_vol['Raw_RBC_vol']:.2f}
+        dpb1_vol = raw_rbc * DPB_PER_M_STANDARD / DOPE_PEG_BB01_STOCK
+        anchoring_pbs_vol = 1000 * raw_rbc * DPB_PER_M_STANDARD / (2* DPB_WORKING_CONC) - dpb1_vol
+        total_reaction_vol = raw_rbc_vol + dpb1_vol + anchoring_pbs_vol
+        washing_pbs_vol = total_reaction_vol * POST_ANCHOR_WASH_VOL
+        dpb1_on_rbc_pmol = raw_rbc * DPB_PER_M_STANDARD * ANCHOR_EFFICIENCY * ANCHOR_RBC_YIELD
+        return {
+        "dpb1_vol": dpb1_vol,
+        "anchoring_pbs_vol": anchoring_pbs_vol,
+        "total_reaction_vol": total_reaction_vol,        
+        "washing_pbs_vol":  washing_pbs_vol,
+        "dpb1_on_rbc_pmol":  dpb1_on_rbc_pmol,
+        }
 
-    def BB_PBS_vol_needed(pci3_needed, RBC_OVERALL_YIELD):
-        raw_RBC = pci3_needed / RBC_OVERALL_YIELD
-        raw_RBC_vol = raw_RBC / RBC_STOCK_CONC_M_per_mL * 1000
-        return raw_RBC_vol, raw_RBC
+    anchoring = DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD)
 
-    req_rbc_vol = RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD)[1]
+    st.write(f"Anchoring Solution: DPB1 Vol {anchoring['dpb1_vol']:.2f} uL")
+    st.write(f"Anchoring Solution: PBS Vol {anchoring['anchoring_pbs_vol']:.2f} uL")
+    st.write(f"Post Anchoring: Washing PBS Vol {anchoring['washing_pbs_vol']:.2f} uL")
+    
+    st.write("For example input boxes, preset selections, etc.")
+    st.write("This is now your NEW tab #1.")
+
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
