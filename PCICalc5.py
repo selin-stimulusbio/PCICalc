@@ -41,7 +41,7 @@ tab_standard, tab_custom = st.tabs(["Standard T-cell Activation", "Custom"])
 with tab_standard:
     st.title("Standard T-cell Activation")
     # Input: Required RBC (M)
-    pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0)
+    pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0, key = "standrd_PCI")
     st.write("For example input boxes, preset selections, etc.")
     st.write("This is now your NEW tab #1.")
 
@@ -93,7 +93,7 @@ with tab_custom:
 
 
 # Input: Required RBC (M)
-    pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0)
+    pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0, key = "cus_PCI")
 
     # BC1 Section
     st.header("Proteins on BC1")
