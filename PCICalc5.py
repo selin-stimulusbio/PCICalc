@@ -112,6 +112,8 @@ with tab_standard:
         "BC2_volume": BC2_volume,        
         "anti_CD28_vol":  anti_CD28_vol,
         "anti_CD137_vol":  anti_CD137_vol,
+        "binding1_total_vol": binding1_total_vol,
+        "binding2_total_vol": binding2_total_vol
         }
 
     binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC)
