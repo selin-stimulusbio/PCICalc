@@ -114,11 +114,11 @@ with tab_standard:
         }
 
     binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC)
-    st.write(f"BC1-SA Volume: {binding['BC1_volume']} uL")
-    st.write(f"anti-CD3 Volume: {binding['anti_CD3_vol']} uL")
-    st.write(f"BC2-SA Volume: {binding['BC2_volume']} uL")
-    st.write(f"anti-CD28 Volume: {binding['anti_CD28_vol']} uL")
-    st.write(f"anti-CD137 Volume: {binding['anti_CD28_vol']} uL")
+    st.write(f"BC1-SA Volume: {binding_values['BC1_volume']} uL")
+    st.write(f"anti-CD3 Volume: {binding_values['anti_CD3_vol']} uL")
+    st.write(f"BC2-SA Volume: {binding_values['BC2_volume']} uL")
+    st.write(f"anti-CD28 Volume: {binding_values['anti_CD28_vol']} uL")
+    st.write(f"anti-CD137 Volume: {binding_values['anti_CD28_vol']} uL")
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
