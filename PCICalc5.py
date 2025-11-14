@@ -43,7 +43,7 @@ with tab_standard:
     # Input: Required RBC (M)
     pci3_needed = st.number_input("1) How many PCI3 needed (million):", min_value=1.0, value=40.0, key = "standrd_PCI")
 
-    def RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD, ):
+    def RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD):
         raw_RBC = pci3_needed / RBC_OVERALL_YIELD
         raw_RBC_vol = raw_RBC / RBC_STOCK_CONC_M_per_mL * 1000
         return raw_RBC_vol
