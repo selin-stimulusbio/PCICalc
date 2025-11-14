@@ -11,6 +11,14 @@ RBC_OVERALL_YIELD = 0.40
 DOPE_PEG_BB01_STOCK = 1
 DPB_WORKING_CONC = 100
 POST_ANCHOR_WASH_VOL = 10
+BARCODE_BACKBONE = 0.5
+CD3_BC_PMOL = 1.18
+CD28_BC_PMOL = 0.78
+CD3_BC_PMOL = 0.156
+BC_SA_STOCK = 1
+CD3_CONC = 3.3
+CD28_CONC = 3.3
+CD137_CONC = 0.66
 
 DPB_PER_M_STANDARD = 4.0
 PROT_RATIO_BC1_STANDARD = 4.0
@@ -59,7 +67,7 @@ with tab_standard:
     st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']}")
     raw_rbc = req_rbc_vol['Raw_RBC_amount']
 
-    def DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD):
+    def DPB1_anchoring(req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD):
         raw_rbc = req_rbc_vol['Raw_RBC_amount']
         raw_rbc_vol = req_rbc_vol['Raw_RBC_vol']
         dpb1_vol = raw_rbc * DPB_PER_M_STANDARD / DOPE_PEG_BB01_STOCK
@@ -75,15 +83,42 @@ with tab_standard:
         "dpb1_on_rbc_pmol":  dpb1_on_rbc_pmol,
         }
 
-    anchoring = DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD)
+    anchoring = DPB1_anchoring(req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD)
 
-    st.write(f"Anchoring Solution: DPB1 Vol {anchoring['dpb1_vol']} uL")
-    st.write(f"Anchoring Solution: PBS Vol {anchoring['anchoring_pbs_vol']} uL")
-    st.write(f"Post Anchoring: Washing PBS Vol {anchoring['washing_pbs_vol']} uL")
+    st.write(f"Anchoring Solution DPB1 Vol: {anchoring['dpb1_vol']} uL")
+    st.write(f"Anchoring Solution PBS Vol: {anchoring['anchoring_pbs_vol']} uL")
+    st.write(f"Post Anchoring Washing PBS Vol: {anchoring['washing_pbs_vol']} uL")
 
-    st.write("For example input boxes, preset selections, etc.")
-    st.write("This is now your NEW tab #1.")
+    def binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_BC_CONC, CD137_BC_PMOL, CD137_BC_CONC):
+        dpb1_on_rbc_pmol = anchoring['dpb1_on_rbc_pmol']
+        BC_1_pmol = dpb1_on_rbc_pmol * BARCODE_BACKBONE
+        anti_CD3_pmol = BC_1_pmol * CD3_BC_PMOL
+        BC1_volume = BC_1_pmol / BC_SA_STOCK
+        anti_CD3_vol = anti_CD3_pmol / CD3_CONC
+        binding1_total_vol = anti_CD3_vol + BC1_volume
+        BC_2_pmol = dpb1_on_rbc_pmol * BARCODE_BACKBONE
+        anti_CD28_pmol = BC_2_pmol * CD28_BC_PMOL
+        anti_CD137_pmol = BC_2_pmol * CD137_BC_PMOL
+        BC2_volume = BC_2_pmol / BC_SA_STOCK
+        anti_CD28_vol = anti_CD28_pmol / CD28_BC_CONC
+        anti_CD137_vol = anti_CD137_pmol / CD137_BC_CONC
+        binding2_total_vol = BC2_volume + anti_CD28_vol
+        total_binding_vol = binding1_total_vol + binding2_total_vol
 
+        return {
+        "BC1_volume": BC1_volume,
+        "anti_CD3_vol": anti_CD3_vol,
+        "BC2_volume": BC2_volume,        
+        "anti_CD28_vol":  anti_CD28_vol,
+        "anti_CD137_vol":  anti_CD137_vol,
+        }
+
+    binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_BC_CONC, CD137_BC_PMOL, CD137_BC_CONC)
+    st.write(f"BC1-SA Volume: {binding['BC1_volume']} uL")
+    st.write(f"anti-CD3 Volume: {binding['anti_CD3_vol']} uL")
+    st.write(f"BC2-SA Volume: {binding['BC2_volume']} uL")
+    st.write(f"anti-CD28 Volume: {binding['anti_CD28_vol']} uL")
+    st.write(f"anti-CD137 Volume: {binding['anti_CD28_vol']} uL")
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
