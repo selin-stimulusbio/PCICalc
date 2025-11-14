@@ -53,8 +53,12 @@ with tab_standard:
 
     st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol:.2f} µL")
 
-    st.write("For example input boxes, preset selections, etc.")
-    st.write("This is now your NEW tab #1.")
+    def BB_PBS_vol_needed(pci3_needed, RBC_OVERALL_YIELD):
+        raw_RBC = pci3_needed / RBC_OVERALL_YIELD
+        raw_RBC_vol = raw_RBC / RBC_STOCK_CONC_M_per_mL * 1000
+        return raw_RBC_vol, raw_RBC
+
+    req_rbc_vol = RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD)[1]
 
 with tab_custom:
     st.title("Custom PCI3 Assembly Calculator")
