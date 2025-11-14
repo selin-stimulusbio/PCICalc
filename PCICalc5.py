@@ -89,7 +89,7 @@ with tab_standard:
     st.write(f"Anchoring Solution PBS Vol: {anchoring['anchoring_pbs_vol']} uL")
     st.write(f"Post Anchoring Washing PBS Vol: {anchoring['washing_pbs_vol']} uL")
 
-    def binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_BC_CONC, CD137_BC_PMOL, CD137_BC_CONC):
+    def binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC):
         dpb1_on_rbc_pmol = anchoring['dpb1_on_rbc_pmol']
         BC_1_pmol = dpb1_on_rbc_pmol * BARCODE_BACKBONE
         anti_CD3_pmol = BC_1_pmol * CD3_BC_PMOL
@@ -100,8 +100,8 @@ with tab_standard:
         anti_CD28_pmol = BC_2_pmol * CD28_BC_PMOL
         anti_CD137_pmol = BC_2_pmol * CD137_BC_PMOL
         BC2_volume = BC_2_pmol / BC_SA_STOCK
-        anti_CD28_vol = anti_CD28_pmol / CD28_BC_CONC
-        anti_CD137_vol = anti_CD137_pmol / CD137_BC_CONC
+        anti_CD28_vol = anti_CD28_pmol / CD28_CONC
+        anti_CD137_vol = anti_CD137_pmol / CD137_CONC
         binding2_total_vol = BC2_volume + anti_CD28_vol
         total_binding_vol = binding1_total_vol + binding2_total_vol
 
@@ -113,7 +113,7 @@ with tab_standard:
         "anti_CD137_vol":  anti_CD137_vol,
         }
 
-    binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_BC_CONC, CD137_BC_PMOL, CD137_BC_CONC)
+    binding_values = binding(anchoring, BARCODE_BACKBONE, CD3_BC_PMOL, BC_SA_STOCK, CD3_CONC, CD28_BC_PMOL, CD28_CONC, CD137_BC_PMOL, CD137_CONC)
     st.write(f"BC1-SA Volume: {binding['BC1_volume']} uL")
     st.write(f"anti-CD3 Volume: {binding['anti_CD3_vol']} uL")
     st.write(f"BC2-SA Volume: {binding['BC2_volume']} uL")
