@@ -56,11 +56,12 @@ with tab_standard:
         }
 
     req_rbc_vol = RBC_vol_needed(pci3_needed, RBC_OVERALL_YIELD)
-    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']:.2f}")
+    st.write(f"Raw RBC Volume Required (50M/mL): {req_rbc_vol['Raw_RBC_vol']}")
+    raw_rbc = req_rbc_vol['Raw_RBC_amount']
 
     def DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD):
-        raw_rbc = {req_rbc_vol['Raw_RBC_amount']:.2f}
-        raw_rbc_vol = {req_rbc_vol['Raw_RBC_vol']:.2f}
+        raw_rbc = req_rbc_vol['Raw_RBC_amount']
+        raw_rbc_vol = req_rbc_vol['Raw_RBC_vol']
         dpb1_vol = raw_rbc * DPB_PER_M_STANDARD / DOPE_PEG_BB01_STOCK
         anchoring_pbs_vol = 1000 * raw_rbc * DPB_PER_M_STANDARD / (2* DPB_WORKING_CONC) - dpb1_vol
         total_reaction_vol = raw_rbc_vol + dpb1_vol + anchoring_pbs_vol
@@ -76,10 +77,10 @@ with tab_standard:
 
     anchoring = DPB1_anchoring(pci3_needed, req_rbc_vol, DPB_PER_M_STANDARD, DOPE_PEG_BB01_STOCK, DPB_WORKING_CONC, POST_ANCHOR_WASH_VOL, ANCHOR_EFFICIENCY, ANCHOR_RBC_YIELD)
 
-    st.write(f"Anchoring Solution: DPB1 Vol {anchoring['dpb1_vol']:.2f} uL")
-    st.write(f"Anchoring Solution: PBS Vol {anchoring['anchoring_pbs_vol']:.2f} uL")
-    st.write(f"Post Anchoring: Washing PBS Vol {anchoring['washing_pbs_vol']:.2f} uL")
-    
+    st.write(f"Anchoring Solution: DPB1 Vol {anchoring['dpb1_vol']} uL")
+    st.write(f"Anchoring Solution: PBS Vol {anchoring['anchoring_pbs_vol']} uL")
+    st.write(f"Post Anchoring: Washing PBS Vol {anchoring['washing_pbs_vol']} uL")
+
     st.write("For example input boxes, preset selections, etc.")
     st.write("This is now your NEW tab #1.")
 
